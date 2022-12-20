@@ -7,11 +7,16 @@ const cluster = require('cluster')
 // Fetch Number of CPU Cores 
 const cpus = require('os').cpus()
 
-// DotEnv Module
-const dotenv = require('dotenv')
+// Apply Environments
+if (process.env.NODE_ENV != 'production') {
 
-// Load the config from the .env file
-dotenv.config()
+    // DotEnv Module
+    const dotenv = require('dotenv')
+
+    // Load the config from the .env file
+    dotenv.config()
+
+}
 
 // Mongoose connection
 const { connectDatabase } = require('./db')
@@ -30,10 +35,10 @@ const setupWorkerProcesses = () => {
 
     // Fork workers
     Readable.from(cpus)
-    .on('data', (cpu)=>{
-        process.stdout.write(`\n Message: ${cpu.model} is starting ... \n`)
-        cluster.fork()
-    })
+        .on('data', (cpu) => {
+            process.stdout.write(`\n Message: ${cpu.model} is starting ... \n`)
+            cluster.fork()
+        })
 
     // Handle Message from Cluster
     cluster.on('message', function (message) {

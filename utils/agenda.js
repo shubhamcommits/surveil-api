@@ -1,8 +1,13 @@
-// DotEnv Module
-const dotenv = require('dotenv')
+// Apply Environments
+if (process.env.NODE_ENV != 'production') {
 
-// Load the config from the .env file
-dotenv.config()
+    // DotEnv Module
+    const dotenv = require('dotenv')
+
+    // Load the config from the .env file
+    dotenv.config()
+
+}
 
 // Import Agenda
 const Agenda = require('agenda')
