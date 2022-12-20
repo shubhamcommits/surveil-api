@@ -7,9 +7,6 @@ const ApiControllers = require('./api.controllers')
 // App Controllers
 const AppControllers = require('./app.controllers')
 
-// Health Check Controllers
-const HealthCheckControllers = require('./health-check.controllers')
-
 // Job Controllers
 const JobControllers = require('./job.controllers')
 
@@ -24,7 +21,6 @@ module.exports = {
     AuthControllers,
     ApiControllers,
     AppControllers,
-    HealthCheckControllers,
     JobControllers,
     ServiceControllers,
     UserControllers

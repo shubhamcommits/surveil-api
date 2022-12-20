@@ -15,69 +15,6 @@ const moment = require('moment')
 
 // Authentication Service
 const AuthService = {
-
-    /**
-     * This service is responsible for logging the user into the system(user-management)
-     * @param {*} 
-     * @returns 
-     */
-    async loginUserToUserManagement(opco) {
-        return new Promise(async (resolve, reject) => {
-            try {
-
-                // Prepare the base host name
-                let baseHost = `${opco}_BASE_HOST`.toUpperCase()
-
-                // Base port for UM Service
-                let basePort = `SERVICE_UM_PORT`
-
-                // Prepare Base URI
-                let baseURI = `http://${process.env[`${baseHost}`]}:${process.env[`${basePort}`]}`
-
-                // Auth Data
-                const data = {
-                    username: process.env.MASTER_USERNAME,
-                    password: process.env.MASTER_PASSWORD
-                }
-
-                // Hit the response
-                await axios.post(`${baseURI}/api/user-mngmnt/v2/login`, data, {
-                    headers: {
-                        'x-client-id': '2'
-                    }
-                })
-                    .then(async (response) => {
-                        if (response.data != undefined && response.data != null) {
-
-                            // Append BASE URI to the result
-                            response.data.URL = `http://${process.env[`${baseHost}`]}`
-
-                            // Fetch the res data
-                            const res = response.data
-
-                            // Resolve the Promise
-                            resolve(res)
-
-                        } else {
-
-                            // Recursively hit the UM Token API
-                            await AuthService.loginUserToUserManagement(opco)
-                        }
-                    })
-                    .catch(async () => {
-
-                        // Recursively hit the UM Token API
-                        await AuthService.loginUserToUserManagement(opco)
-                    })
-
-            } catch (error) {
-
-                // Catch the error and reject the promise
-                reject(error.response.data)
-            }
-        })
-    },
-
     /**
      * This function is responsible for creating the Authentication logs
      * @param {*} token 

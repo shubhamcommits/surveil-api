@@ -7,9 +7,6 @@ const express = require('express')
 // Define the express application
 const app = express()
 
-// Path Module
-const path = require('path')
-
 // Cors Module
 const cors = require('cors')
 
@@ -24,43 +21,10 @@ const {
     AuthRoutes,
     ApiRoutes,
     AppRoutes,
-    HealthCheckRoutes,
     JobRoutes,
     ServiceRoutes,
     UserRoutes
 } = require('./routes')
-
-// Files Directory
-const dir = './files'
-
-// Staging Directory
-const stagingDir = './files/staging'
-
-// Processed Directory
-const processedDir = './files/processed'
-
-// Result Directory
-const resultDir = './files/result'
-
-// Create files directory if not exist
-if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-}
-
-// Create staging directory if not exist
-if (!fs.existsSync(stagingDir)) {
-    fs.mkdirSync(stagingDir)
-}
-
-// Create processed directory if not exist
-if (!fs.existsSync(processedDir)) {
-    fs.mkdirSync(processedDir)
-}
-
-// Create result directory if not exist
-if (!fs.existsSync(resultDir)) {
-    fs.mkdirSync(resultDir)
-}
 
 // Cors middleware for origin and Headers
 app.use(cors())
@@ -75,19 +39,9 @@ app.use(morgan('dev'))
 app.use('/api/v1/auths', AuthRoutes)
 app.use('/api/v1/apps', AppRoutes)
 app.use('/api/v1/custom-apis', ApiRoutes)
-app.use('/api/v1/health-checks', HealthCheckRoutes)
 app.use('/api/v1/jobs', JobRoutes)
 app.use('/api/v1/services', ServiceRoutes)
 app.use('/api/v1/users', UserRoutes)
-
-// Static Folder for downloading files
-app.use('/files', express.static(path.join(__dirname, '../files/result')));
-
-// Serve Static Files from ANGULAR
-app.use(express.static(path.join(__dirname, '../dist/client')));
-
-// Client Facing Route
-app.use('/', express.static(path.join(__dirname, '../dist/client/index.html')));
 
 // Invalid routes handling middleware
 app.all('*', (req, res, next) => {
