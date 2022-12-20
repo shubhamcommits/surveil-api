@@ -1,5 +1,5 @@
 {
-  "name": "hermes-server",
+  "name": "softrace-server",
   "version": "1.0.0",
   "description": "Hermes System (Open-SaaS) Application Server",
   "main": "server.js",
