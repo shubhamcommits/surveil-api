@@ -43,16 +43,16 @@ app.use('/api/v1/jobs', JobRoutes)
 app.use('/api/v1/services', ServiceRoutes)
 app.use('/api/v1/users', UserRoutes)
 
+// Default Route
+app.use('/', (req, res, next) => {
+    res.status(200).json({ message: 'Sofrace Server is working!' })
+})
+
 // Invalid routes handling middleware
 app.all('*', (req, res, next) => {
     const error = new Error('Not found, check your URL please!')
     error.status = 404
     next(error)
-})
-
-// Default Route
-app.use('/', (req, res, next) => {
-    res.status(200).json({ message: 'Hermes server is working!' })
 })
 
 // Error handling middleware
