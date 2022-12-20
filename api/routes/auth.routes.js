@@ -17,10 +17,6 @@ router.post('/login', AuthControllers.signIn)
 // Sign-Up Route
 router.post('/sign-up', AuthControllers.signUp)
 
-
-// User Management Login Route
-router.post('/um-login', AuthControllers.loginToUserManagement)
-
 // Change active status Route
 router.put('/status/:userId', Authorization.verifyAccessToken, Authorization.isLoggedIn, Authorization.checkAdminPermissions, AuthControllers.changeActiveStatus)
 

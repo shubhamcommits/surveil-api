@@ -33,12 +33,6 @@ const UserSchema = new Schema({
         dropDups: true,
         required: true
     },
-    auuid: {
-        type: Number,
-        unique : true,
-        dropDups: true,
-        required: true
-    },
     password: {
         type: String,
         required: true

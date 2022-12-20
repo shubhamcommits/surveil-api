@@ -7,9 +7,6 @@ const { Password } = require('../../utils')
 // JWT Module
 const jwt = require('jsonwebtoken')
 
-// Axios Module
-const axios = require('axios')
-
 // Moment Module
 const moment = require('moment')
 
@@ -174,32 +171,10 @@ const AuthService = {
 
                 // Check if user exists in the DB 
                 const checkUserEmail = await User.findOne({ email: userData.email })
-                const checkUserAuuid = await User.findOne({ auuid: userData.auuid })
 
-                if (checkUserAuuid || checkUserEmail) {
-                    reject({ error: 'User with this email & auuid combination already exist.' })
+                if (checkUserEmail) {
+                    reject({ error: 'User with this email already exist.' })
                 }
-
-                const regForFirstName = '/(^[A-Z])[a-z]{3,60}$/';
-
-                // //Validating password
-                // if(!(validation.isLength(userData.password,{min:5}))){
-                //     reject({error : 'Password length should be greater than or equal to 5 characters.'})
-                //     // console.log("Rejected")
-                // } else if(userData.first_name.match(regForFirstName) == null){
-                //     reject({error : 'Firstname length should be more than 3 characters and less than 60 characters, and first letter should be in uppercase'})
-                //     return
-                // } else if(userData.last_name.match(regForFirstName)==null){
-                //     reject({error : 'Lastname length should be more than 3 characters and less than 60 characters, and first letter should be in uppercase'})
-                //     return
-                // } 
-                const regForAuuid = '[0-9]{8,8}$';
-                // console.log(userData.auuid)
-                const id = userData.auuid;
-                //   if(!(id.match(regForAuuid))){
-                //     reject({error : 'Enter correct auuid'})
-                //   }
-
 
                 // Encrypting user password
                 const encryptedPass = await Password.encryptPassword(userData.password)
@@ -214,24 +189,14 @@ const AuthService = {
                     first_name: userData.first_name,
                     last_name: userData.last_name,
                     full_name: userData.first_name + userData.last_name,
-                    auuid: userData.auuid,
                     email: userData.email,
                     type: userData.type || 'user',
                     password: encryptedPass.password
                 }
 
-
-
-                // //need help of shubham here - 
-                // const regForEmail =  "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/";
-                // if(!(userData.email.match(regForEmail))){
-                //     reject({error : 'Enter a valid email'})
-                //     return;
-                // }
-
                 // Create the new User
                 let user = await User.create(data)
-                // console.log(user)
+
                 // If user is not created
                 if (!user) {
                     reject({ error: 'User was not created.' })
@@ -243,7 +208,7 @@ const AuthService = {
                 })
 
             } catch (error) {
-                // console.log(error)
+
                 // Catch the error and reject the promise
                 reject({ error: error })
             }

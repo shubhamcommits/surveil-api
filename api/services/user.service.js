@@ -8,12 +8,12 @@ const UserService = {
 
                 // fetch user
                 const Currentuser = await User.findOne({
-                    auuid: userId
+                    _id: userId
                 })
-               //resolving the promise
-                resolve({user : Currentuser});
-                
-                
+                //resolving the promise
+                resolve({ user: Currentuser });
+
+
 
             } catch (error) {
 

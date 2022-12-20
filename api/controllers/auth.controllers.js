@@ -161,48 +161,6 @@ const AuthControllers = {
         } catch (error) {
             return SendError(res, error)
         }
-    },
-
-    /**
-     * This function is responsible for fetching the token from User Management
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async loginToUserManagement(req, res, next) {
-        try {
-
-            // Fetch the UserId
-            let opco = req.headers.opco
-
-            // If OPCO code is not present in the headers
-            if(!opco)
-                return res.status(400).json({
-                    message: "Opco Code is not present in the Header, please do the needful!"
-                })
-
-            // Call Login User Management Service
-            AuthService.loginUserToUserManagement(opco)
-                .then((data) => {
-
-                    // Send Status 200 response
-                    return res.status(200).json({
-                        message: 'Token from User Management fetched successfully!',
-                        url: data.URL,
-                        opco: opco,
-                        token: data.result.accessToken
-                    })
-                })
-                .catch((error) => {
-                    return res.status(400).json({
-                        error: error
-                    })
-                })
-
-        } catch (error) {
-            return SendError(res, error)
-        }
     }
 }
 
