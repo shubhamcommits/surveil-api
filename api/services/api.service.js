@@ -87,7 +87,7 @@ const ApiService = {
         })
     },
 
-    async createApi(name, method, opco, end_point, authorization_via_um, serviceId, appId, userId) {
+    async createApi(name, method, end_point, serviceId, appId, userId) {
         return new Promise(async (resolve, reject) => {
             try {
 
@@ -95,9 +95,7 @@ const ApiService = {
                 let api = await Api.create({
                     name: name,
                     method: method,
-                    opco: opco,
                     end_point: end_point,
-                    authorization_via_um: authorization_via_um,
                     _app: appId,
                     _service: serviceId,
                     _user: userId
@@ -206,7 +204,7 @@ const ApiService = {
                     _app: appId,
                     _service: serviceId
                 })
-                    .select('name opco method end_point time_interval last_status active failed_count')
+                    .select('name method end_point time_interval last_status active failed_count')
                     .sort('-created_date') || []
 
                 // Resolve the promise
@@ -228,9 +226,7 @@ const ApiService = {
      * @param {*} end_point 
      * @param {*} body 
      * @param {*} params 
-     * @param {*} headers 
-     * @param {*} authorization_via_um 
-     * @param {*} opco 
+     * @param {*} headers
      * @returns 
      */
     async callCustomApi(jobName) {
@@ -245,28 +241,28 @@ const ApiService = {
                         apiData.headers['Accept'] = '*/*'
                         apiData.headers['Content-Type'] = 'application/json'
 
-                        if (apiData.authorization_via_um == true) {
+                        // if (apiData.authorization_via_um == true) {
 
-                            // Fetch the User Token
-                            AuthService.loginUserToUserManagement(apiData.opco)
-                                .then((tokenData) => {
+                        //     // Fetch the User Token
+                        //     AuthService.loginUserToUserManagement(apiData.opco)
+                        //         .then((tokenData) => {
 
-                                    // Access Token
-                                    let accessToken = tokenData.result.accessToken
+                        //             // Access Token
+                        //             let accessToken = tokenData.result.accessToken
 
-                                    // Append the Authorization
-                                    apiData.headers['Authorization'] = `Bearer ${accessToken}`
-                                })
-                                .catch((error) => {
+                        //             // Append the Authorization
+                        //             apiData.headers['Authorization'] = `Bearer ${accessToken}`
+                        //         })
+                        //         .catch((error) => {
 
-                                    // Catch the error and reject the promise
-                                    console.error(error)
+                        //             // Catch the error and reject the promise
+                        //             console.error(error)
 
-                                    reject({
-                                        error: 'Unable to fetch the Token from User Management, please try again!'
-                                    })
-                                })
-                        }
+                        //             reject({
+                        //                 error: 'Unable to fetch the Token from User Management, please try again!'
+                        //             })
+                        //         })
+                        // }
 
                         // Prepare the configuration
                         let config = {

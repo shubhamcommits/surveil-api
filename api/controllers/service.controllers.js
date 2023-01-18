@@ -44,7 +44,7 @@ const ServiceControllers = {
      * @param {*} res 
      * @param {*} next 
      */
-     async getServiceDetails(req, res, next) {
+    async getServiceDetails(req, res, next) {
         try {
 
             // Fetch the data from the request params
@@ -100,12 +100,47 @@ const ServiceControllers = {
     },
 
     /**
+     * Update Service REST Controller
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async updateService(req, res, next) {
+        try {
+
+            // Fetch the data from the request params
+            let { serviceId } = req.params
+            
+            // Fetch the service data from the request body
+            let service = req.body
+
+            // Calling the service function
+            ChildService.updateService(serviceId, service)
+                .then((data) => {
+
+                    // Send Status 200 response
+                    return res.status(200).json({
+                        message: 'Service has been updated successfully!',
+                        service: data
+                    })
+                })
+                .catch((error) => {
+                    return res.status(400).json(error)
+                })
+
+        } catch (error) {
+            return SendError(res, error)
+        }
+    },
+
+    /**
      * Remove Service Controller
      * @param {*} req 
      * @param {*} res 
      * @param {*} next 
      */
-     async removeService(req, res, next) {
+    async removeService(req, res, next) {
         try {
 
             // Fetch the data from the request params

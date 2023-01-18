@@ -13,6 +13,34 @@ const ApiService = require('./api.service')
 // Job Service
 const JobService = {
 
+    // This function is responsible for adding a job to the queue
+    async addJob() {
+        return new Promise((resolve, reject) => {
+            try {
+
+                // Fetch the Job Queue
+                let queue = JSON.parse(process.env.QUEUE)
+
+                let jobQueue = new Queue()
+
+                // Add the base function process to the queue
+                queue.process(()=>{
+                    console.log('Processed!')
+                })
+
+                queue.add({})
+
+                resolve({ queue: process.env.QUEUE })
+
+            } catch (error) {
+                console.error('error', error)
+
+                // Catch the error and reject the promise
+                reject(error)
+            }
+        })
+    },
+
     async startJobProcessor() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -23,7 +51,7 @@ const JobService = {
                 // Find existing old Jobs
                 let oldJobs = await agenda.jobs() || []
 
-                if(apis.length > 0){
+                if (apis.length > 0) {
                     console.log('API: ', apis.length)
                 }
 
@@ -33,17 +61,17 @@ const JobService = {
                 // Subscribe to Global Start Event
                 agenda.on('start', job => {
                     console.info(`Job Processor: STARTING - ${job.attrs.name} - ${moment().format('HH:mm:ss')}`)
-                  })
-                  
+                })
+
                 // Subscribe to Global Complete Event
                 agenda.on('complete', job => {
                     console.info(`Job Processor: COMPLETED - ${job.attrs.name} - ${moment().format('HH:mm:ss')}`)
-                  })
+                })
 
                 // Subscribe to Global Fail Event
                 agenda.on('fail', job => {
                     console.info(`Job Processor: FAILED - ${job.attrs.name} - ${moment().format('HH:mm:ss')}`)
-                  })
+                })
 
                 // Resolve the job Object
                 resolve('Processor has been started')

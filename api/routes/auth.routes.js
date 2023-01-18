@@ -10,7 +10,6 @@ const { Authorization  } = require('../../utils')
 // Import Controllers
 const { AuthControllers } = require('../controllers')
 
-
 // Login Route
 router.post('/login', AuthControllers.signIn)
 

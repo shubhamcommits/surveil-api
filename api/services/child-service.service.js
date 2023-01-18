@@ -1,5 +1,5 @@
 // Import Models
-const { App, Service, Api } = require('../models')
+const { App, Service, Api, User } = require('../models')
 
 // Import File Stream Module
 const { Readable } = require('stream')
@@ -43,7 +43,7 @@ const ChildService = {
      * @param {*} serviceId 
      * @returns 
      */
-     async getServiceDetails(serviceId) {
+    async getServiceDetails(serviceId) {
         return new Promise(async (resolve, reject) => {
             try {
 
@@ -53,6 +53,43 @@ const ChildService = {
 
                 // Resolve the promise
                 resolve(service)
+
+            } catch (error) {
+
+                // Catch the error and reject the promise
+                reject({ error: error })
+            }
+        })
+    },
+
+    /**
+     * This function is responsible for updating a service on fly
+     * @param {*} serviceId 
+     * @param {*} serviceDoc 
+     * @returns 
+     */
+    async updateService(serviceId, serviceDoc) {
+        return new Promise((resolve, reject) => {
+            try {
+
+                // Update the Service
+                Service.findOneAndUpdate(
+                    { _id: serviceId },
+                    { $set: serviceDoc },
+                    { new: true }
+                )
+                .populate('_app')
+                
+                    .then((service) => {
+
+                        // Resolve the promise
+                        resolve(service)
+                    })
+                    .catch((error) => {
+
+                        // Reject the promise on error
+                        reject(error)
+                    })
 
             } catch (error) {
 

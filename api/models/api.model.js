@@ -14,6 +14,10 @@ const ApiSchema = new Schema({
         required: true,
         default: false
     },
+    public: {
+        type: Boolean,
+        default: false
+    },
     name: {
         type: String,
         required: true
@@ -22,28 +26,23 @@ const ApiSchema = new Schema({
         type: String,
         required: true
     },
-    opco: {
-        type: String,
-        required: true
-    },
     end_point: {
         type: String,
         required: true
     },
-    body: [{
+    body: {
         type: Schema.Types.Mixed
-    }],
-    authorization_via_um: {
-        type: Boolean,
-        required: true,
-        default: true
     },
-    headers: [{
+    headers: {
+        type: Schema.Types.Mixed,
+        default: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        }
+    },
+    params: {
         type: Schema.Types.Mixed
-    }],
-    params: [{
-        type: Schema.Types.Mixed
-    }],
+    },
     curl: {
         type: String
     },

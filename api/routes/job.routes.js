@@ -16,6 +16,12 @@ router.use(Authorization.isLoggedIn)
 // Import Controllers
 const { JobControllers } = require('../controllers')
 
+// Route Definition
+router.route('/')
+
+        // Create Project 
+        .post(JobControllers.addJob)
+
 // Check Job Status Route
 router.get('/start-processor', JobControllers.startJobProcessor)
 

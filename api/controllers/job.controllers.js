@@ -8,6 +8,34 @@ const { SendError } = require('../../utils')
 const JobControllers = {
 
     /**
+     * Add Job to the Queue
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async addJob(req, res, next) {
+        try {
+
+            // Call the addJob function
+            JobService.addJob()
+                .then((data) => {
+
+                    // Send Status 200 response
+                    return res.status(200).json({
+                        queue: data.queue,
+                        message: 'Job and Bull are working as expected!'
+                    })
+                })
+                .catch((error) => {
+                    return res.status(400).json(error)
+                })
+        } catch (error) {
+            return SendError(res, error)
+        }
+    },
+
+    /**
      * Start Job Processor
      * @param {*} req 
      * @param {*} res 

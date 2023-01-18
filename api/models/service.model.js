@@ -21,13 +21,18 @@ const ServiceSchema = new Schema({
     last_status: {
         type: String,
         required: true,
-        default: 'healthy',
-        enum: ['healthy', 'unhealthy', 'broken']
+        default: 'unknown',
+        enum: ['healthy', 'unhealthy', 'broken', 'unknown']
     },
     apis: [{
         type: Schema.Types.ObjectId,
         ref: 'Api'
     }],
+    threshold: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     created_date: {
         type: Date,
         default: moment().format()

@@ -80,10 +80,10 @@ const ApiControllers = {
         try {
 
             // Fetch the data from the request body
-            let { name, method, opco, end_point, authorization_via_um, serviceId, appId } = req.body
+            let { name, method, end_point, serviceId, appId } = req.body
 
             // Call the Create Api function
-            ApiService.createApi(name, method, opco, end_point, authorization_via_um, serviceId, appId, req.user._id)
+            ApiService.createApi(name, method, end_point, serviceId, appId, req.user._id)
                 .then((data) => {
 
                     // Send Status 200 response

@@ -22,11 +22,17 @@ router.post('/', ServiceControllers.createService)
 // Get Services Route
 router.get('/', ServiceControllers.getAllUserServices)
 
-// Get Service Route
-router.get('/:serviceId', ServiceControllers.getServiceDetails)
+// Route Definition
+router.route('/:serviceId')
 
-// Remove Service Route
-router.delete('/:serviceId', ServiceControllers.removeService)
+    // Get Service Route
+    .get(ServiceControllers.getServiceDetails)
+
+    // Update Service Route
+    .put(ServiceControllers.updateService)
+
+    // Remove Service Route
+    .delete(ServiceControllers.removeService)
 
 // Export Router
 module.exports = router

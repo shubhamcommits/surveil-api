@@ -18,6 +18,9 @@ if (process.env.NODE_ENV != 'production') {
 
 }
 
+// Import Queue from bull
+const Queue = require('bull')
+
 // Mongoose connection
 const { connectDatabase } = require('./db')
 
@@ -88,12 +91,33 @@ const setUpExpressApplication = async () => {
             // Environment State Variable
             const env = process.env.NODE_ENV
 
+            // Job Queue
+            const jobQueue = new Queue(`Job_Queue`,
+                {
+                    redis: {
+                        port: process.env.REDIS_PORT,
+                        host: process.env.REDIS_HOST,
+                        username: process.env.REDIS_USER,
+                        password: process.env.REDIS_PASSWORD
+                    }
+                })
+
+            jobQueue.on('global:completed', jobId => {
+                process.stdout.write(`\n Job with id ${jobId} has been completed \n`);
+            })
+
+            // Console the job Queue
+            process.stdout.write(`\n Job Queue has been initiated: ${jobQueue.name} \n`)
+
+            // Set the QUEUE to the environment variable
+            process.env.QUEUE = JSON.stringify(jobQueue)
+
             // Creating Microservice Server
             const server = http.createServer(app)
 
             // Exposing the server to the desired port
             server.listen(port, host, async () => {
-                process.stdout.write(`\n Hermes Server : http://${host}:${port}\n`)
+                process.stdout.write(`\n Softrace Server : http://${host}:${port}\n`)
                 process.stdout.write(`\n Environment : ${env}\n`)
                 process.stdout.write(`\n Process : ${process.pid} is listening to all incoming requests \n`)
             })
