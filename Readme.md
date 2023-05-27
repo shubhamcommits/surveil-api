@@ -1,5 +1,5 @@
-# |  Softrace Server System (Open-SaaS) App v.1
-###  Welcome to Softrace Server System Dev team!  😀  
+# |  Surveil API Server System (Open-SaaS) App v.1
+###  Welcome to Surveil API Server System Dev team!  😀  
 
 ##  
 
@@ -16,13 +16,13 @@
 ## 1. Installing and Running The App On Your Machine
 
 1.1.  Open the terminal, go to the folder where you want **softrace-server** repository to be installed and run:
-`git clone https://github.com/shubhamcommits/softrace-server.git`
+`git clone https://github.com/softrace-tech/surveil-api.git`
 
 1.2.  Make sure you have **[nodejs](https://nodejs.org/en/download/)** installed in your system along with any package manager or your choice([npm](https://nodejs.org/en/download/) or [yarn](https://classic.yarnpkg.com/en/docs/install/))
 
-1.3.  Go to `softrace-server/` folder and run `npm install` or `yarn install` to install the dependencies of the application (one time activity)
+1.3.  Go to `surveil-api/` folder and run `npm install` or `yarn install` to install the dependencies of the application (one time activity)
 
-1.4.  Fire up a new terminal and go to `softrace-server/` and run `npn run dev` or `yarn run dev`, and your server application shall start up on port `3000`
+1.4.  Fire up a new terminal and go to `surveil-api/` and run `npn run dev` or `yarn run dev`, and your server application shall start up on port `3000`
 
 ---
 
